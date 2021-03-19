@@ -1,0 +1,6 @@
+name: IAmMe
+version: @version@
+main: com.github.mcsti.iamme.Main
+api-version: 1.16
+authors: [enimaloc]
+description: An authenticator plugin for Spigot
