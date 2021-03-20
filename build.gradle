@@ -1,29 +1,37 @@
 import org.apache.tools.ant.filters.ReplaceTokens
+import com.github.jengelman.gradle.plugins.shadow.transformers.AppendingTransformer
 
 plugins {
     id 'java'
+    id "com.github.johnrengelman.shadow" version "6.1.0"
 }
 
 group = 'com.github.mcsti'
-version = '1.0-SNAPSHOT'
+version = '0.0.1'
 
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
 
+shadowJar {
+    transform(AppendingTransformer) {
+        resource = 'META-INF/services/java.sql.Driver'
+    }
+    dependencies {
+        exclude(dependency('org.spigotmc.spigot:1.16.5-R0.1-SNAPSHOT'))
+    }
+    destinationDirectory=new File("D:\\opt\\server\\minecraft\\Spigot\\1.16.5\\plugins");
+}
+
 repositories {
     mavenCentral()
-    maven {
-        name = 'spigotmc-repo'
-        url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
-    }
-    maven {
-        name = 'sonatype'
-        url = 'https://oss.sonatype.org/content/groups/public/'
-    }
+    mavenLocal()
+    maven {url 'https://oss.sonatype.org/content/groups/public/'}
+    maven {url 'https://oss.sonatype.org/content/repositories/snapshots'}
 }
 
 dependencies {
-    compileOnly 'org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT'
+    compileOnly 'org.spigotmc:spigot:1.16.5-R0.1-SNAPSHOT'
+    compileOnly 'org.xerial:sqlite-jdbc:3.34.0'
 }
 
 processResources {
